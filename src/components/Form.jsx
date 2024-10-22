@@ -39,6 +39,32 @@ const Form = () => {
     ]);
   };
 
+  // Function to delete a question
+  const handleDeleteQuestion = (index) => {
+    const updatedQuestions = questions.filter((_, qIndex) => qIndex !== index);
+    setQuestions(updatedQuestions);
+  };
+
+  // Function to move a question up
+  const handleMoveUp = (index) => {
+    if (index === 0) return; // Cannot move the first question up
+    const updatedQuestions = [...questions];
+    const temp = updatedQuestions[index - 1];
+    updatedQuestions[index - 1] = updatedQuestions[index];
+    updatedQuestions[index] = temp;
+    setQuestions(updatedQuestions);
+  };
+
+  // Function to move a question down
+  const handleMoveDown = (index) => {
+    if (index === questions.length - 1) return; // Cannot move the last question down
+    const updatedQuestions = [...questions];
+    const temp = updatedQuestions[index + 1];
+    updatedQuestions[index + 1] = updatedQuestions[index];
+    updatedQuestions[index] = temp;
+    setQuestions(updatedQuestions);
+  };
+
   // Function to update a specific question
   const handleQuestionChange = (index, value) => {
     const updatedQuestions = [...questions];
@@ -135,7 +161,7 @@ const Form = () => {
 
       {/* Wrapping container for the form */}
       <div className="bg-[rgba(255,255,255,.8)] p-6 rounded-lg shadow-lg w-[66%] mx-auto">
-        
+
         {/* Form Title - inside the form */}
         <div className="mb-6">
           {!isPreview ? (
@@ -147,14 +173,33 @@ const Form = () => {
               className="text-2xl font-bold border-b-2 w-full p-2 mb-4"
             />
           ) : (
-            <h2 className="text-2xl font-bold mb-4">{title}</h2>  
+            <h2 className="text-2xl font-bold mb-4">{title}</h2>
           )}
         </div>
 
+
+
+
         {questions.map((q, qIndex) => (
-          <div key={qIndex} className="p-4 rounded-lg shadow-md mb-4">
+          <div key={qIndex} className="p-4 rounded-lg shadow-md mb-4 relative">
+
+
             {!isPreview ? (
               <>
+
+               {/* Question Control Buttons (Delete and Swap) */}
+               <div className="absolute top-0 right-0 flex space-x-2">
+                    <button onClick={() => handleMoveUp(qIndex)} className="p-1 text-gray-500 hover:text-gray-700">
+                      ▲
+                    </button>
+                    <button onClick={() => handleMoveDown(qIndex)} className="p-1 text-gray-500 hover:text-gray-700">
+                      ▼
+                    </button>
+                    <button onClick={() => handleDeleteQuestion(qIndex)} className="p-1 text-red-500 hover:text-red-700">
+                      🗑
+                    </button>
+                  </div> 
+
                 {/* Edit Mode */}
                 <div className="flex items-center space-x-2 mb-4">
                   <select
