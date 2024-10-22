@@ -86,7 +86,7 @@ const AnimationSection = () => {
                     The all-in-one platform for surveys, forms, and market research
                 </h2>
                 <p className="mt-4 text-lg text-gray-600">
-                    SurveyMonkey makes it quick and easy to ask the right questions the right way, and get fast and powerful insights that help you delight your customers, build a happy and productive workforce, and win in your market.
+                    Green Forms makes it quick and easy to ask the right questions the right way, and get fast and powerful insights that help you delight your customers, build a happy and productive workforce, and win in your market.
                 </p>
                 <button className="mt-6 px-5 py-3 text-sm font-medium text-white bg-gray-800 rounded-full hover:bg-gray-700 transition">
                     Get product overview

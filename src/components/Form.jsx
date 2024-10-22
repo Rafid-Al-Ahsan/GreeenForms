@@ -1,104 +1,132 @@
+import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import slider1 from '../assets/slider1.jpg';
+import slider2 from '../assets/slider2.jpg';
+import slider3 from '../assets/slider3.jpg';
+import slider4 from '../assets/slider4.jpg';
 
 const Form = () => {
-  const [questions, setQuestions] = useState([]);
-  const [isPreview, setIsPreview] = useState(false);
-  const [previewResponses, setPreviewResponses] = useState({});
+    const location = useLocation();
+    const { selectedStyle } = location.state || {};
+    const [questions, setQuestions] = useState([]);
+    const [isPreview, setIsPreview] = useState(false);
+    const [previewResponses, setPreviewResponses] = useState({});
 
-  const handleAddQuestion = () => {
-    setQuestions([
-      ...questions,
-      {
-        question: '',
-        options: ['Option 1', 'Option 2'],
-        type: 'multipleChoice', // Default to 'multipleChoice'
-        multipleAnswers: false,
-        isRequired: false,
-      },
-    ]);
-  };
+    const imageMap = {
+      "slider1.jpg": slider1,
+      "slider2.jpg": slider2,
+      "slider3.jpg": slider3,
+      "slider4.jpg": slider4
+    };
+    
 
-  const handleQuestionChange = (index, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].question = value;
-    setQuestions(updatedQuestions);
-  };
+    // Function to handle adding a new question
+    const handleAddQuestion = () => {
+        setQuestions([
+            ...questions,
+            {
+                question: '',
+                options: ['Option 1', 'Option 2'],
+                type: 'multipleChoice',
+                multipleAnswers: false,
+                isRequired: false,
+            },
+        ]);
+    };
 
-  const handleOptionChange = (qIndex, oIndex, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].options[oIndex] = value;
-    setQuestions(updatedQuestions);
-  };
+    // Function to update a specific question
+    const handleQuestionChange = (index, value) => {
+      const updatedQuestions = [...questions];
+      updatedQuestions[index].question = value;
+      setQuestions(updatedQuestions);
+    };
 
-  const handleAddOption = (qIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].options.push(`Option ${updatedQuestions[qIndex].options.length + 1}`);
-    setQuestions(updatedQuestions);
-  };
+    // Function to update options for a specific question
+    const handleOptionChange = (qIndex, oIndex, value) => {
+      const updatedQuestions = [...questions];
+      updatedQuestions[qIndex].options[oIndex] = value;
+      setQuestions(updatedQuestions);
+    };
 
-  const handleDeleteOption = (qIndex, oIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].options = updatedQuestions[qIndex].options.filter((_, i) => i !== oIndex);
-    setQuestions(updatedQuestions);
-  };
+    // Function to add an option to a specific question
+    const handleAddOption = (qIndex) => {
+      const updatedQuestions = [...questions];
+      updatedQuestions[qIndex].options.push(`Option ${updatedQuestions[qIndex].options.length + 1}`);
+      setQuestions(updatedQuestions);
+    };
 
-  const handleTypeChange = (qIndex, type) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].type = type;
+    // Function to delete a specific question
+    const handleDeleteOption = (qIndex, oIndex) => {
+      const updatedQuestions = [...questions];
+      updatedQuestions[qIndex].options = updatedQuestions[qIndex].options.filter((_, i) => i !== oIndex);
+      setQuestions(updatedQuestions);
+    };
 
-    if (type === 'text') {
-      updatedQuestions[qIndex].options = [];
-    } else if (type === 'multipleChoice' || type === 'checkbox' || type === 'dropdown') {
-      updatedQuestions[qIndex].options = ['Option 1', 'Option 2'];
-    }
+    const handleTypeChange = (qIndex, type) => {
+      const updatedQuestions = [...questions];
+      updatedQuestions[qIndex].type = type;
+  
+      if (type === 'text') {
+        updatedQuestions[qIndex].options = [];
+      } else if (type === 'multipleChoice' || type === 'checkbox' || type === 'dropdown') {
+        updatedQuestions[qIndex].options = ['Option 1', 'Option 2'];
+      }
+  
+      setQuestions(updatedQuestions);
+    };
+  
+    const toggleIsRequired = (qIndex) => {
+      const updatedQuestions = [...questions];
+      updatedQuestions[qIndex].isRequired = !updatedQuestions[qIndex].isRequired;
+      setQuestions(updatedQuestions);
+    };
+  
 
-    setQuestions(updatedQuestions);
-  };
+    // Function to handle preview responses change
+    const handlePreviewResponseChange = (qIndex, value) => {
+        setPreviewResponses({
+            ...previewResponses,
+            [qIndex]: value,
+        });
+    };
 
-  const toggleIsRequired = (qIndex) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[qIndex].isRequired = !updatedQuestions[qIndex].isRequired;
-    setQuestions(updatedQuestions);
-  };
+    const handleCheckboxChange = (qIndex, option) => {
+      const selectedOptions = previewResponses[qIndex] || [];
+      const newSelectedOptions = selectedOptions.includes(option)
+        ? selectedOptions.filter((opt) => opt !== option)
+        : [...selectedOptions, option];
+  
+      setPreviewResponses({
+        ...previewResponses,
+        [qIndex]: newSelectedOptions,
+      });
+    };
 
-  const handlePreviewResponseChange = (qIndex, value) => {
-    setPreviewResponses({
-      ...previewResponses,
-      [qIndex]: value,
-    });
-  };
-
-  const handleCheckboxChange = (qIndex, option) => {
-    const selectedOptions = previewResponses[qIndex] || [];
-    const newSelectedOptions = selectedOptions.includes(option)
-      ? selectedOptions.filter((opt) => opt !== option)
-      : [...selectedOptions, option];
-
-    setPreviewResponses({
-      ...previewResponses,
-      [qIndex]: newSelectedOptions,
-    });
-  };
-
-  return (
-    <div className="p-6">
-      <div className="flex justify-between mb-4">
-        <button
-          onClick={handleAddQuestion}
-          className="bg-gray-100 p-4 rounded-md shadow-md hover:bg-gray-200"
+    return (
+        <div
+            className="p-6"
+            style={{
+              backgroundImage: `url(${imageMap[selectedStyle?.backgroundImage] || ''})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
         >
-          Add another question
-        </button>
-        <button
-          onClick={() => setIsPreview(!isPreview)}
-          className={`p-4 rounded-md shadow-md ${isPreview ? 'bg-blue-100 hover:bg-blue-200' : 'bg-gray-100 hover:bg-gray-200'}`}
-        >
-          {isPreview ? 'Switch to Edit Mode' : 'Preview'}
-        </button>
-      </div>
-
-      {questions.map((q, qIndex) => (
-        <div key={qIndex} className="bg-white p-4 rounded-lg shadow-md mb-4">
+            <div className="flex justify-between mb-4">
+                <button
+                    onClick={handleAddQuestion}
+                    className={`p-4 rounded-md shadow-md ${selectedStyle?.buttonStyle || 'bg-gray-200 hover:bg-gray-300'}`}
+                >
+                    Add another question
+                </button>
+                <button
+                    onClick={() => setIsPreview(!isPreview)}
+                    className={`p-4 rounded-md shadow-md ${selectedStyle?.buttonStyle || 'bg-gray-200 hover:bg-gray-300'}`}
+                >
+                    {isPreview ? 'Switch to Edit Mode' : 'Preview'}
+                </button>
+            </div>
+            {questions.map((q, qIndex) => (
+        <div key={qIndex} className="bg-[rgba(255,255,255,.9)] p-4 rounded-lg shadow-md mb-4 w-[66%] mx-auto">
           {!isPreview ? (
             <>
               {/* Edit Mode */}
@@ -129,7 +157,7 @@ const Form = () => {
                     <div key={oIndex} className="flex items-center space-x-2">
                       <input
                         type={q.type === 'checkbox' ? 'checkbox' : 'radio'}
-                        className="form-radio"
+                        className="form-radio bg-[rgba(255,255,255,.1)]"
                         name={`option-${qIndex}`}
                         disabled
                       />
@@ -137,7 +165,7 @@ const Form = () => {
                         type="text"
                         value={option}
                         onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
-                        className="border-b-2 flex-grow p-2"
+                        className="border-b-2 flex-grow p-2 "
                       />
                       <button
                         onClick={() => handleDeleteOption(qIndex, oIndex)}
@@ -244,8 +272,9 @@ const Form = () => {
           )}
         </div>
       ))}
-    </div>
-  );
+             
+        </div>
+    );
 };
 
 export default Form;

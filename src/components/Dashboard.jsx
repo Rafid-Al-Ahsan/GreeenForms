@@ -1,15 +1,15 @@
 import AnimationSection from "./AnimationSection";
 import Banner from "./Banner";
 import CallToAction from "./CallToAction";
-import Header from "./Header";
+import Footer from "./Footer";
 
 const Dashboard = () => {
     return (
         <div>
             <Banner></Banner>
-            <Header></Header>
             <AnimationSection></AnimationSection>
             <CallToAction></CallToAction>
+            <Footer></Footer>
         </div>
     );
 };

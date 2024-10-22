@@ -11,6 +11,7 @@ import Registration from "./components/Registration";
 import Login from "./components/Login";
 import AuthProvider from "./provider/AuthProvider";
 import Form from "./components/Form";
+import Header from "./components/Header";
 
 const router = createBrowserRouter([
   {
@@ -22,18 +23,24 @@ const router = createBrowserRouter([
         element: <Dashboard></Dashboard>
       },
       {
-        path: "/registration",
-        element: <Registration></Registration>
-      },
-      {
-        path: "/login",
-        element: <Login></Login>
-      },
-      {
         path: "/form/:templateId/:formId",
         element: <Form></Form>
+      },
+      {
+        path: "/header",
+        element: <Header></Header>
       }
     ]
+  },
+
+  
+  {
+    path: "/login",
+    element: <Login></Login>
+  },
+  {
+    path: "/registration",
+    element: <Registration></Registration>
   },
 ]);
 

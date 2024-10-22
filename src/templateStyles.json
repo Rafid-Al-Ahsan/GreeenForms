@@ -1,0 +1,14 @@
+{
+  "assessment": {
+    "backgroundImage": "slider1.jpg"
+  },
+  "contact-info": {
+    "backgroundImage": "slider2.jpg"
+  },
+  "customer-feedback": {
+    "backgroundImage": "slider3.jpg"
+  },
+  "rsvp": {
+    "backgroundImage": "slider4.jpg"
+  }
+}

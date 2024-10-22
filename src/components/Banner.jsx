@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import img1 from '../assets/slider4.jpg';
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
     useEffect(() => {
@@ -37,9 +39,18 @@ const Banner = () => {
                         Get your surveys, quizzes, and registration forms done with one click.
                     </p>
                     <p className='text-sm md:text-base'>Simple and easy to use.</p>
-                    <button className="bg-white text-teal-600 font-semibold px-5 py-2 rounded hover:bg-gray-100 transition-all duration-300">
-                        Try for free
-                    </button>
+                    <div className='flex gap-3'>
+                        <p className="font-semibold py-2 rounded-lg sm:text-sm md:text-md flex items-center gap-2"><IoMdCheckmarkCircleOutline className='h-8 w-8' />100% User Satisfaction</p>
+                        <p className="font-semibold py-2 rounded-lg sm:text-sm md:text-md flex items-center gap-2"><IoMdCheckmarkCircleOutline className='h-8 w-8' />Great User Experience</p>
+                    </div>
+
+                    <div>
+                        <Link to="/registration">  <button className="bg-white text-teal-600 font-semibold px-5 py-2 rounded hover:bg-gray-100 transition-all duration-300">
+                            Try for free
+                        </button>
+                        </Link>
+                    </div>
+
                 </div>
             </div>
         </div>

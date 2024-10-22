@@ -19,7 +19,7 @@ export default function Footer() {
                         <li>Online Forms</li>
                         <li>Market Research</li>
                         <li>Integrations</li>
-                        <li>SurveyMonkey Genius</li>
+                        <li>Green Forms Genius</li>
                         <li>Enterprise</li>
                         <li>Pricing</li>
                     </ul>
@@ -161,7 +161,7 @@ export default function Footer() {
                     <a href="#" className="text-gray-600"><i className="fab fa-twitter"></i></a>
                 </div>
                 <div className="text-sm text-gray-500">
-                    © 1999-2024 SurveyMonkey
+                    © 1997-2024 Green Forms
                 </div>
             </div>
         </footer>
