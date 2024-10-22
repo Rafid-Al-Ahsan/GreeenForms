@@ -13,6 +13,7 @@ const Form = () => {
   const [questions, setQuestions] = useState([]);
   const [isPreview, setIsPreview] = useState(false);
   const [previewResponses, setPreviewResponses] = useState({});
+  const [title, setTitle] = useState('Untitled Form');  // Add state for title
 
   const imageMap = {
     "quiz.jpg": quiz,
@@ -130,8 +131,26 @@ const Form = () => {
         </button>
       </div>
 
+
+
       {/* Wrapping container for the form */}
       <div className="bg-[rgba(255,255,255,.8)] p-6 rounded-lg shadow-lg w-[66%] mx-auto">
+        
+        {/* Form Title - inside the form */}
+        <div className="mb-6">
+          {!isPreview ? (
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}  // Editable title in edit mode
+              placeholder="Form Title"
+              className="text-2xl font-bold border-b-2 w-full p-2 mb-4"
+            />
+          ) : (
+            <h2 className="text-2xl font-bold mb-4">{title}</h2>  
+          )}
+        </div>
+
         {questions.map((q, qIndex) => (
           <div key={qIndex} className="p-4 rounded-lg shadow-md mb-4">
             {!isPreview ? (
