@@ -1,11 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import quiz from '../assets/analytics.jpg'
+import quiz from '../assets/quiz.jpg'
 import survey from '../assets/survey.jpg';
 import feedback from '../assets/feedback.jpg';
 import analytics from '../assets/analytics.jpg';
 import invitation from "../assets/invitation.jpg"
-import party from "../assets/party.jpg"
+import event from "../assets/event.jpg"
 
 const Form = () => {
   const location = useLocation();
@@ -20,7 +20,7 @@ const Form = () => {
     "feedback.jpg": feedback,
     "analytics.jpg": analytics,
     "invitation.jpg": invitation,
-    "party.jpg": party,
+    "event.jpg": event,
   };
 
 

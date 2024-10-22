@@ -14,7 +14,7 @@
   "invitation": {
     "backgroundImage": "invitation.jpg"
   },
-  "party": {
-    "backgroundImage": "party.jpg"
+  "event": {
+    "backgroundImage": "event.jpg"
   }
 }
