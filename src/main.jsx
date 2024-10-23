@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import AuthProvider from "./provider/AuthProvider";
 import Form from "./components/Form";
 import Header from "./components/Header";
+import PrivateRouter from "./components/PrivateRouter";
 
 const router = createBrowserRouter([
   {
@@ -28,12 +29,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/header",
-        element: <Header></Header>
+        element: <PrivateRouter><Header></Header></PrivateRouter>
       }
     ]
   },
 
-  
+
   {
     path: "/login",
     element: <Login></Login>
