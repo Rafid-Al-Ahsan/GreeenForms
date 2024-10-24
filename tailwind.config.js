@@ -5,7 +5,20 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        cycle: 'cycle 9s infinite',
+      },
+      keyframes: {
+        cycle: {
+          '0%': { opacity: '0' },
+          '10%': { opacity: '1' },
+          '30%': { opacity: '1' },
+          '40%': { opacity: '0' },
+          '100%': { opacity: '0' },
+        },
+      },
+    },
     screens: {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
