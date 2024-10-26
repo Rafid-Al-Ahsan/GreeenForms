@@ -14,10 +14,10 @@ import axios from 'axios';
 
 const Header = () => {
     const navigate = useNavigate();
-    const [showAllTemplates, setShowAllTemplates] = useState(false);
     const { user } = useContext(AuthContext);
     const [likeStatuses, setLikeStatuses] = useState({});
-    // const [likeCounts, setLikeCounts] = useState({});
+    const [likeCounts, setLikeCounts] = useState({});  // New state for like counts
+    const [showAllTemplates, setShowAllTemplates] = useState(false);
 
     const templates = [
         { id: 'quiz', img: img1, label: 'Quiz' },
@@ -28,30 +28,24 @@ const Header = () => {
         { id: 'event', img: img6, label: 'Event' }
     ];
 
-    // useEffect(() => {
-    //     // Fetch initial like statuses and counts for each template
-    //     const fetchLikeStatuses = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:5000/api/like-status/${user.email}`, {
-    //                 params: { email: user.email }
-    //             });
-    //             console.log(response.data[0].likedTemplates);
-    //             // setLikeStatuses(response.data.likeStatuses);
-    //             // setLikeCounts(response.data.likeCounts);
-    //         } catch (error) {
-    //             console.error('Error fetching like statuses:', error);
-    //         }
-    //     };
-
-    //     if (user) {
-    //         fetchLikeStatuses();
-    //     }
-    // }, [user]);
-
     useEffect(() => {
-        // Fetch initial like statuses for each template
-        const fetchLikeStatuses = async () => {
+        // Fetch like statuses and counts for each template
+        const fetchLikesData = async () => {
             try {
+                const promises = templates.map(async (template) => {
+                    const response = await axios.get(`http://localhost:5000/template/like/${template.id}`);
+                    const templateData = response.data[0] || { likeCount: 0 };
+                    return { templateId: template.id, likeCount: templateData.likeCount };
+                });
+
+                const results = await Promise.all(promises);
+                const likeCounts = results.reduce((acc, { templateId, likeCount }) => {
+                    acc[templateId] = likeCount;
+                    return acc;
+                }, {});
+
+                setLikeCounts(likeCounts);
+
                 const response = await axios.get(`http://localhost:5000/api/like-status/${user.email}`);
                 const likedTemplates = response.data[0]?.likedTemplates || [];
 
@@ -63,33 +57,14 @@ const Header = () => {
 
                 setLikeStatuses(likeStatuses);
             } catch (error) {
-                console.error('Error fetching like statuses:', error);
+                console.error('Error fetching like counts:', error);
             }
         };
 
         if (user) {
-            fetchLikeStatuses();
+            fetchLikesData();
         }
-    }, [user]);
-    // const handleLikeClick = async (templateId) => {
-    //     if (!user) return;
-
-    //     try {
-    //         if (likeStatuses[templateId]) {
-    //             // Unlike the template
-    //             await axios.post('http://localhost:5000/api/unlike', { templateId, email: user.email });
-    //             setLikeStatuses((prev) => ({ ...prev, [templateId]: false }));
-    //             setLikeCounts((prev) => ({ ...prev, [templateId]: prev[templateId] - 1 }));
-    //         } else {
-    //             // Like the template
-    //             await axios.post('http://localhost:5000/api/like', { templateId, email: user.email });
-    //             setLikeStatuses((prev) => ({ ...prev, [templateId]: true }));
-    //             setLikeCounts((prev) => ({ ...prev, [templateId]: prev[templateId] + 1 }));
-    //         }
-    //     } catch (error) {
-    //         console.error('Error updating like status:', error);
-    //     }
-    // };
+    }, [user, templates]);
 
     const handleLikeClick = async (templateId) => {
         if (!user) return;
@@ -99,22 +74,24 @@ const Header = () => {
                 // Unlike the template
                 await axios.post('http://localhost:5000/api/unlike', { templateId, email: user.email });
                 setLikeStatuses((prev) => ({ ...prev, [templateId]: false }));
+                setLikeCounts((prev) => ({ ...prev, [templateId]: prev[templateId] - 1 }));
             } else {
                 // Like the template
                 await axios.post('http://localhost:5000/api/like', { templateId, email: user.email });
                 setLikeStatuses((prev) => ({ ...prev, [templateId]: true }));
+                setLikeCounts((prev) => ({ ...prev, [templateId]: prev[templateId] + 1 }));
             }
         } catch (error) {
             console.error('Error updating like status:', error);
         }
     };
+
     const handleTemplateClick = (templateId) => {
         const id = uuidv4();
         const selectedStyle = styles[templateId];
         navigate(`/form/${templateId}/${id}`, { state: { selectedStyle } });
     };
 
-    // Limit templates displayed based on state
     const displayedTemplates = showAllTemplates ? templates : templates.slice(0, 4);
 
     return (
@@ -129,17 +106,17 @@ const Header = () => {
                             <img src={template.img} alt={`${template.label} form`} className="w-full h-[80px] sm:h-[100px] object-cover rounded-t-md" />
                         </button>
                         <p className="text-xs sm:text-sm md:text-base text-gray-700 font-medium mt-2">{template.label}</p>
+                        {/* <p className="text-sm text-gray-600">Likes: {likeCounts[template.id] || 0}</p> Display like count */}
                         <button
                             className={`mt-2 px-4 py-2 rounded-md ${likeStatuses[template.id] ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700'}`}
                             onClick={() => handleLikeClick(template.id)}
                         >
-                            {likeStatuses[template.id] ? 'Liked' : 'Like'}
+                             {likeStatuses[template.id] ? 'Liked' : 'Like'} ({likeCounts[template.id] || 0})
                         </button>
                     </div>
                 ))}
             </div>
 
-            {/* Chevron icons placed at the top-right */}
             <div className="absolute top-[15%] right-0 flex flex-col p-1">
                 {showAllTemplates ? (
                     <button
