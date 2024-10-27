@@ -4,6 +4,7 @@ import app from '../firebase/firebase.config';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IoLeaf } from "react-icons/io5";
+import axios from 'axios';
 
 
 const Registration = () => {
@@ -24,10 +25,14 @@ const Registration = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const createdUser = result.user;
+                const role = "User";
 
                 updateProfile(createdUser, { photoURL: photo, displayName: name })
                     .then(() => {
+                        const saveUser = { name: createdUser.displayName, email: createdUser.email, role: role, img: photo };
                         console.log('User profile updated successfully.');
+
+                        axios.post('https://greenforms-serverside.vercel.app/registereduser', saveUser)
                     })
                     .catch((updateError) => {
                         console.error('Error updating user profile:', updateError);

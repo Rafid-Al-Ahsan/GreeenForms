@@ -33,7 +33,7 @@ const Header = () => {
         const fetchLikesData = async () => {
             try {
                 const promises = templates.map(async (template) => {
-                    const response = await axios.get(`http://localhost:5000/template/like/${template.id}`);
+                    const response = await axios.get(`https://greenforms-serverside.vercel.app/template/like/${template.id}`);
                     const templateData = response.data[0] || { likeCount: 0 };
                     return { templateId: template.id, likeCount: templateData.likeCount };
                 });
@@ -46,7 +46,7 @@ const Header = () => {
 
                 setLikeCounts(likeCounts);
 
-                const response = await axios.get(`http://localhost:5000/api/like-status/${user.email}`);
+                const response = await axios.get(`https://greenforms-serverside.vercel.app/api/like-status/${user.email}`);
                 const likedTemplates = response.data[0]?.likedTemplates || [];
 
                 // Create an object mapping each template to its liked status
@@ -72,12 +72,12 @@ const Header = () => {
         try {
             if (likeStatuses[templateId]) {
                 // Unlike the template
-                await axios.post('http://localhost:5000/api/unlike', { templateId, email: user.email });
+                await axios.post('https://greenforms-serverside.vercel.app/api/unlike', { templateId, email: user.email });
                 setLikeStatuses((prev) => ({ ...prev, [templateId]: false }));
                 setLikeCounts((prev) => ({ ...prev, [templateId]: prev[templateId] - 1 }));
             } else {
                 // Like the template
-                await axios.post('http://localhost:5000/api/like', { templateId, email: user.email });
+                await axios.post('https://greenforms-serverside.vercel.app/api/like', { templateId, email: user.email });
                 setLikeStatuses((prev) => ({ ...prev, [templateId]: true }));
                 setLikeCounts((prev) => ({ ...prev, [templateId]: prev[templateId] + 1 }));
             }

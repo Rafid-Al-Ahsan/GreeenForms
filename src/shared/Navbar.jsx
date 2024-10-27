@@ -5,15 +5,21 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from '../provider/AuthProvider';
 import { FaAngleDown } from "react-icons/fa";
+import { useState } from 'react';
 
 const Navbar = () => {
 
     const { user } = useContext(AuthContext);
     const auth = getAuth(app);
+    const [role, setRole] = useState('');
 
     const handleLogOut = () => {
         signOut(auth).then(() => { });
     };
+
+    fetch(`https://greenforms-serverside.vercel.app/registereduser/${user?.email}`)
+    .then(res => res.json())
+    .then(data => setRole(data.role))
 
     return (
         <nav className="bg-teal-50 py-4 px-8 flex items-center justify-between shadow-md">
@@ -24,6 +30,7 @@ const Navbar = () => {
                     Green Forms
                 </span>
                 {user? <Link to='/header'><button className="text-gray-500 font-semibold px-10 py-2 rounded-lg sm:text-sm md:text-lg flex items-center gap-2"><FaAngleDown />Forms</button></Link> : <></>}
+                {role === "Admin" && <Link to='/dashboard'><button className="text-gray-500 font-semibold py-2 rounded-lg sm:text-sm md:text-lg flex items-center gap-2"><FaAngleDown />Admin Panel</button></Link>}
 
             </div></Link>
 

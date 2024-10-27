@@ -13,6 +13,11 @@ import AuthProvider from "./provider/AuthProvider";
 import Form from "./components/Form";
 import Header from "./components/Header";
 import PrivateRouter from "./components/PrivateRouter";
+import AdminMain from "./Admin/AdminMain";
+import Users from "./Admin/Users";
+import AdminDashboard from "./Admin/AdminDashboard";
+
+
 
 const router = createBrowserRouter([
   {
@@ -25,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/form/:templateId/:formId",
-        element: <Form></Form>
+        element: <PrivateRouter><Form></Form></PrivateRouter>
       },
       {
         path: "/header",
@@ -33,8 +38,21 @@ const router = createBrowserRouter([
       }
     ]
   },
-
-
+  {
+    path: "dashboard",
+    element: <PrivateRouter><AdminMain></AdminMain></PrivateRouter>,
+    children: [
+      {
+        path: "",
+        element: <AdminDashboard></AdminDashboard>
+      },
+      {
+        path: "users",
+        element: <Users></Users>
+      },
+      
+    ]
+  },
   {
     path: "/login",
     element: <Login></Login>
