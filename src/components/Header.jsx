@@ -35,6 +35,7 @@ const Header = () => {
                 const promises = templates.map(async (template) => {
                     const response = await axios.get(`https://greenforms-serverside.vercel.app/template/like/${template.id}`);
                     const templateData = response.data[0] || { likeCount: 0 };
+                    // console.log(response.data[0]);
                     return { templateId: template.id, likeCount: templateData.likeCount };
                 });
 
@@ -45,6 +46,7 @@ const Header = () => {
                 }, {});
 
                 setLikeCounts(likeCounts);
+               
 
                 const response = await axios.get(`https://greenforms-serverside.vercel.app/api/like-status/${user.email}`);
                 const likedTemplates = response.data[0]?.likedTemplates || [];
@@ -56,6 +58,7 @@ const Header = () => {
                 }, {});
 
                 setLikeStatuses(likeStatuses);
+                
             } catch (error) {
                 console.error('Error fetching like counts:', error);
             }
@@ -89,10 +92,12 @@ const Header = () => {
     const handleTemplateClick = (templateId) => {
         const id = uuidv4();
         const selectedStyle = styles[templateId];
+        console.log(templateId)
         navigate(`/form/${templateId}/${id}`, { state: { selectedStyle } });
     };
 
     const displayedTemplates = showAllTemplates ? templates : templates.slice(0, 4);
+    
 
     return (
         <div className="relative w-full sm:h-auto bg-[#F1F3F4] flex items-center">

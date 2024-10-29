@@ -15,6 +15,7 @@ const Form = () => {
   const [previewResponses, setPreviewResponses] = useState({});
   const [title, setTitle] = useState('Untitled Form');  // Add state for title
 
+   
   const imageMap = {
     "quiz.jpg": quiz,
     "survey.jpg": survey,
