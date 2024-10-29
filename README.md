@@ -1,8 +1,28 @@
-# React + Vite
+# Green Forms
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to **Green Forms**, a web application designed to streamline the process of creating and managing forms efficiently.
 
-Currently, two official plugins are available:
+## Backend Repository
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The server-side (backend) of this project is available in a separate GitHub repository. You can find it here:
+
+[Greenforms Serverside](https://github.com/Rafid-Al-Ahsan/Greenforms-serverside)
+
+## Features
+
+- User-friendly interface for creating forms
+- Responsive design for all devices
+- Secure data handling
+- Easy form management and customization
+
+## Getting Started
+
+To get started with this project, follow these steps:
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/Rafid-Al-Ahsan/GreeenForms.git
+   cd green-forms
+   npm install
+   npm run dev
